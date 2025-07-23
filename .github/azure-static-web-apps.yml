@@ -1,0 +1,23 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - master  # ← Azureポータルで設定した production branch に合わせてください
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build And Deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # 自動で含まれる
+          action: "upload"
+          app_location: "static"        # ← フロントエンドのディレクトリ
+          api_location: "api"           # ← Azure Functions のディレクトリ
+          output_location: ""           # ← ビルド成果物のディレクトリ（SPAビルドがある場合など）
